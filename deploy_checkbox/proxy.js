@@ -14,6 +14,7 @@ var reach = false;
 var i = 0;
 var count=1;
 
+var args = process.argv.slice(2);
 //var prodServer = "67.205.162.15";
 //var canaryServer = "159.203.100.176";
 
@@ -22,23 +23,12 @@ var canaryServer;
 
 var socket = sioc('http://' + canaryServer);
 
-var Dict = {};
 
-var lines = require('fs').readFileSync('/var/lib/jenkins/IP', 'utf-8')
-    .split('\n')
-    .filter(Boolean);
-
-//console.log(lines);
-
-for (var line of lines){
-	var key = line.split("=");
-  	Dict[key[0]]=key[1];
-}
 
 //console.log(Dict);
 
-prodServer = Dict['prod'];
-canaryServer = Dict['canary'];
+prodServer = args[2];
+canaryServer = args[3];
 
 console.log(prodServer);
 console.log(canaryServer);
