@@ -1,7 +1,7 @@
 ---
 - hosts: localhost
   vars: 
-    droplets: 
+    droplets:
     - prod
     - canary  
   connection: local
@@ -20,5 +20,18 @@
     - vars.yml
   tasks:
     - include: tasks/checkbox.yml
+    
+    
+- hosts: localhost
+  vars: 
+    droplets:
+    - proxy 
+  connection: local
+  serial: 1
+  gather_facts: no
+  vars_files:
+    - vars.yml
+  tasks:  
+    - include: tasks/droplet.yml
                
 
