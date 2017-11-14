@@ -31,6 +31,9 @@
   gather_facts: no
   vars_files:
     - vars.yml
+  environment:
+    prod: "{{ groups['newdroplets'][0] }}"
+    canary: "{{ groups['newdroplets'][1] }}"
   tasks:  
   - name: Add source key for nodejs
     apt_key:
