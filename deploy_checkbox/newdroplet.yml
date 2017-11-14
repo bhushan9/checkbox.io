@@ -35,6 +35,16 @@
     prod: "{{ groups['newdroplets'][0] }}"
     canary: "{{ groups['newdroplets'][1] }}"
   tasks:  
+  - name: create new user
+    shell: useradd -m ubuntu
+  
+  - name: su ubuntu
+    shell: su ubuntu
+
+  - name: Update all packages
+    apt:
+      update_cache: yes
+      upgrade: dist
   - name: Add source key for nodejs
     apt_key:
       url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
