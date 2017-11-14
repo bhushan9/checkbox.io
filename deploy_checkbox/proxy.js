@@ -53,7 +53,7 @@ var server = http.createServer(function(req, res) {
     if (count%5 == 0 ) {
     
       	port = 3000;
-	isReachable('159.203.100.176').then(reachable => {
+	isReachable(canaryServer).then(reachable => {
         //console.log(reachable);
         if(reachable == true){
         reach = true;
