@@ -62,7 +62,7 @@
       src: /var/lib/jenkins/workspace/checkbox.io/deploy_checkbox/package.json
       
   - name: Run proxy.js
-    shell: cd /usr && npm install && node proxy.js
+    shell: cd /usr && npm install && node proxy.js $prod $canary
       
     
 
