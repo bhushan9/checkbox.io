@@ -3,7 +3,6 @@ var check = require('validator').check;
 var _ = require('underscore');
 var emailjs = require('emailjs');
 var fileService = require('./upload.js');
-
 var Server = mongo.Server,
     Db = mongo.Db,
     ObjectID = mongo.ObjectID;
@@ -55,7 +54,9 @@ exports.closeStudy = function(req, res) {
     });
 }
 
-exports.download = function(req, res ) {
+
+exports.download = function(req, res) {
+    console.log('inside download')
     var token = req.params.token;
     console.log(token);
 

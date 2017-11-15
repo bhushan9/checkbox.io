@@ -9,6 +9,9 @@ var express = require('express'),
 	admin = require('./routes/admin.js');
 
 var app = express();
+var redis = require('redis')
+var client = redis.createClient(6379, '127.0.0.1', {})
+var toggle = 1
 
 app.configure(function () {
     app.use(express.logger('dev'));     /* 'default', 'short', 'tiny', 'dev' */
@@ -58,8 +61,37 @@ app.post('/api/study/vote/submit/', cors(corsOptions), study.submitVote );
 
 //// ADMIN ROUTES
 app.get('/api/study/admin/:token', admin.loadStudy );
-app.get('/api/study/admin/download/:token', admin.download );
+
+app.get('/api/study/admin/download/:token', function(req, res){
+	if(toggle == 1){
+		console.log('toggle on')
+		admin.download(req, res); 
+	}
+        else{
+		console.log('toggle off')
+		res.send('Error! Access Denied!!');
+	}
+});
 app.get('/api/study/admin/assign/:token', admin.assignWinner);
+
+app.get('/api/toggle', function(req, res){
+	client.get('t', function(err,value){
+		if(value == 1){
+			console.log(value)
+			client.set('t', 0)
+			res.send('cache off')
+                        console.log('cache off')
+			toggle = 0
+		}
+		else{
+			console.log(value)
+			client.set('t', 1)
+			res.send('cache on')
+                        console.log('cache on')
+			toggle = 1
+		}	
+	})
+})
 
 app.post('/api/study/admin/open/', admin.openStudy );
 app.post('/api/study/admin/close/', admin.closeStudy );
@@ -84,6 +116,6 @@ app.post('/api/study/admin/notify/', admin.notifyParticipant);
 //app.get('/api/design/survey/vote/stat/:id', votes.getSurveyStats );
 
 
-
+client.set('t',1);
 app.listen(process.env.MONGO_PORT);
 console.log('Listening on port 3002...');
